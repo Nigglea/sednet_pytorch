@@ -6,10 +6,10 @@ import pandas as pd
 import torchaudio
 from codes import utils
 
-def preprocess_data(audio_sample_path,annotations_file,target_sample_rate,
+def preprocess_data(audio_sample_path,all_path,annotations_file,target_sample_rate,
                                 len_samples,N_FFT,HOP,N_MELS,labels,device="cuda"):
     #print(audio_sample_path)
-    signal, sr = torchaudio.load(audio_sample_path)
+    signal, sr = torchaudio.load(os.path.join(all_path,audio_sample_path))
 
     signal = signal.to(device)
     signal = resample_if_necessary(signal, sr,target_sample_rate)
@@ -71,7 +71,7 @@ def transformation(signal,SAMPLE_RATE,N_FFT,HOP,N_MELS,trans="logmel",device="cu
         )
         transf = transf.to(device)
         signal = transf(signal)
-        signal = torch.log(signal+1e-3)
+        signal = torch.log(signal+1e-4)
     return signal
 
 def get_audio_sample_label(signal,target_sample_rate,hop, audio_sample_path,annotations_file,labels,device="cuda"):
