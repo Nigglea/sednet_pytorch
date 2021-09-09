@@ -71,7 +71,7 @@ def transformation(signal,SAMPLE_RATE,N_FFT,HOP,N_MELS,trans="logmel",device="cu
         )
         transf = transf.to(device)
         signal = transf(signal)
-        signal = torch.log(signal+1e-4)
+        signal = torch.log(signal+1e-5)
     return signal
 
 def get_audio_sample_label(signal,target_sample_rate,hop, audio_sample_path,annotations_file,labels,device="cuda"):
