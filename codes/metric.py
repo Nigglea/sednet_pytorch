@@ -155,12 +155,12 @@ def er_overall_1sec(O, T, block_size):
 
 def compute_scores_orig(pred, y, frames_in_1_sec=50):
     scores = dict()
-    scores['f1_overall_1sec'] = np.around(f1_overall_1sec(pred, y, frames_in_1_sec),2)
-    scores['er_overall_1sec'] = np.around(er_overall_1sec(pred, y, frames_in_1_sec),2)
+    scores['f1_overall_1sec'] = np.around(f1_overall_1sec(pred, y, frames_in_1_sec),3)
+    scores['er_overall_1sec'] = np.around(er_overall_1sec(pred, y, frames_in_1_sec),3)
     return scores
 
 def compute_scores(pred, y):
     scores = dict()
-    scores['f1_overall_1sec'] = f1_overall_framewise(pred, y)
-    scores['er_overall_1sec'] = er_overall_framewise(pred, y)
+    scores['f1'] = f1_overall_framewise(pred, y)
+    scores['er'] = er_overall_framewise(pred, y)
     return scores

@@ -12,6 +12,7 @@ def preprocess_data(audio_sample_path,all_path,annotations_file,target_sample_ra
     signal, sr = torchaudio.load(os.path.join(all_path,audio_sample_path))
 
     signal = signal.to(device)
+    signal = normalization(signal,mode="zscore")
     signal = resample_if_necessary(signal, sr,target_sample_rate)
     signal = mix_down_if_necessary(signal)
     signal = cut_if_necessary(signal,len_samples)
@@ -85,3 +86,32 @@ def get_audio_sample_label(signal,target_sample_rate,hop, audio_sample_path,anno
         label[val, frame_start[ind]:frame_end[ind]] = 1
     label_tensor = torch.tensor(label,device=device)
     return label_tensor
+
+def normalization(signal, mode=None):
+    """
+    peak: normalize signal between -1 and 1
+    rms: mormalize with root means square 
+    minmax: Min-Max normalization
+    zscore: Z-score normalization
+    none
+    """
+    if mode == "peak":
+        signal = torch.div(signal,torch.max(torch.abs(signal)))
+    elif mode == "rms":
+        rms_level=0
+        # linear rms level and scaling factor
+        r = 10**( rms_level/ 10.0)
+        a = torch.sqrt( (len(signal) * r**2) / torch.sum(signal**2) )
+
+        # normalize
+        signal = signal * a
+    elif mode == "minmax":
+        min_s = torch.min(signal)
+        max_s = torch.max(signal)
+        den_s = max_s - min_s
+        signal = torch.div((signal - min_s),den_s)
+    elif mode == "zscore":
+        mean_s = torch.mean(signal)
+        std_s = torch.std(signal)
+        signal = torch.div((signal-mean_s),std_s)
+    return signal
