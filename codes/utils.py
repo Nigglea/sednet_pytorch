@@ -28,3 +28,10 @@ def create_set(elements, reference):
         data = reference[reference.filenames==e]
         df = df.append(data,ignore_index=True)
     return df
+
+def num_2wet(df,num):
+    #humedal
+    for i in range(len(df)):
+        if df.iloc[i,2]<= num:
+            if df.iloc[i,3]>= num:
+                return df.iloc[i,0]

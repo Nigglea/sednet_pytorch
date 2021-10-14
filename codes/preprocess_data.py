@@ -114,4 +114,6 @@ def normalization(signal, mode=None):
         mean_s = torch.mean(signal)
         std_s = torch.std(signal)
         signal = torch.div((signal-mean_s),std_s)
+    elif mode == None:
+        signal = signal
     return signal
