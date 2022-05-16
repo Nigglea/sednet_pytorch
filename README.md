@@ -1,5 +1,5 @@
 # Polyphonic Sound event detection network implemented in Pytorch
-Repository to host a degree project for Acoustic Civil Engineering.
+Repository to host a degree project for Acoustic Civil Engineering & MsC in Informatics.
 
 ## Database
 pending.
