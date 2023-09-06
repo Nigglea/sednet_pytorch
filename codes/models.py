@@ -30,11 +30,6 @@ class TimeDistributed(nn.Module):
 
 class SEDnet(nn.Module):
     
-<<<<<<< HEAD
-    def __init__(self,n_class,stereo=False):
-        super(type(self), self).__init__()
-        self.n_channels = 2 if stereo else 1
-=======
     def __init__(self,num_samples,n_class,stereo=False):
         super(type(self), self).__init__()
         if stereo:
@@ -42,7 +37,6 @@ class SEDnet(nn.Module):
         else:
             self.n_channels = 1
         self.num_samples = num_samples
->>>>>>> 36b130c (UPDATE 2023)
         self.CNN1 = nn.Sequential(
                                 nn.Conv2d(self.n_channels, 128, kernel_size = (3, 3), padding='same'),
                                 nn.BatchNorm2d(128),
@@ -142,33 +136,6 @@ class SEDnet_init_zero(nn.Module):
         
         return z
 
-<<<<<<< HEAD
-class SEDnet_init_zero(nn.Module):
-    
-    def __init__(self,n_class,stereo=True):
-        
-        super(type(self), self).__init__()
-        self.n_channels = 2 if stereo else 1
-        self.CNN1 = nn.Sequential(
-                                nn.Conv2d(self.n_channels, 128, kernel_size = (3, 3), padding='same'),
-                                nn.BatchNorm2d(128),
-                                nn.ReLU(),
-                                nn.MaxPool2d((1, 5)),
-                                nn.Dropout(p = 0.5, inplace=True))
-        nn.init.zeros_(self.CNN1[0].weight)
-        nn.init.zeros_(self.CNN1[0].bias)
-        self.CNN2 = nn.Sequential(
-                                nn.Conv2d(128,128, kernel_size=(3, 3), padding='same'),
-                                nn.BatchNorm2d(128),
-                                nn.ReLU(),
-                                nn.MaxPool2d((1, 2)),
-                                nn.Dropout(p=0.5, inplace=True))
-        self.CNN3 = nn.Sequential(
-                                nn.Conv2d(128,128, kernel_size=(3, 3), padding='same'),
-                                nn.BatchNorm2d(128),
-                                nn.ReLU(),
-                                nn.MaxPool2d((1, 2)),
-=======
 
 class STAInet(nn.Module):
     
@@ -196,7 +163,6 @@ class STAInet(nn.Module):
                                 nn.BatchNorm2d(256),
                                 nn.ReLU(),
                                 nn.AdaptiveMaxPool2d((self.num_samples,1)),
->>>>>>> 36b130c (UPDATE 2023)
                                 nn.Dropout(p=0.5, inplace=True))
         self.RNN = nn.Sequential(
                                 nn.GRU(input_size=256,hidden_size=32,dropout=0.5,bidirectional=True,batch_first=True),
@@ -213,16 +179,6 @@ class STAInet(nn.Module):
         
     def forward(self,x):
         
-<<<<<<< HEAD
-        z = self.CNN1(x)        
-        z = self.CNN2(z)        
-        z = self.CNN3(z)        
-        z = z.permute(0,2,1,3)        
-        z = z.reshape((z.shape[0],z.shape[-3], -1))        
-        z = self.RNN(z)        
-        z = self.FC(z)        
-        z = self.output(z)        
-=======
         #### Change kernel size, to filter only in index
         #print(x.shape)
         z = self.CNN1(x) 
@@ -236,14 +192,10 @@ class STAInet(nn.Module):
         z = self.RNN(z)          
         z = self.FC(z)   
         z = self.output(z)           
->>>>>>> 36b130c (UPDATE 2023)
         z = torch.sigmoid(z)
         
         return z
 
-<<<<<<< HEAD
-
-=======
 class STAIMBEnet(nn.Module):
     
     def __init__(self,num_samples,n_class,stereo=False):
@@ -393,4 +345,3 @@ class STAIMBEnet_v2(nn.Module):
         z = self.output(z)           
         z = torch.sigmoid(z)
         return z
->>>>>>> 36b130c (UPDATE 2023)
