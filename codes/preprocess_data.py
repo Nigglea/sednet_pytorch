@@ -12,7 +12,7 @@ def preprocess_data(audio_sample_path,all_path,annotations_file,target_sample_ra
     signal, sr = torchaudio.load(os.path.join(all_path,audio_sample_path))
 
     signal = signal.to(device)
-    signal = normalization(signal,mode="zscore")
+    signal = normalization(signal,mode="center")
     signal = resample_if_necessary(signal, sr,target_sample_rate)
     signal = mix_down_if_necessary(signal)
     signal = cut_if_necessary(signal,len_samples)
@@ -22,7 +22,7 @@ def preprocess_data(audio_sample_path,all_path,annotations_file,target_sample_ra
 
     label = get_audio_sample_label(signal,target_sample_rate,HOP,
                                 audio_sample_path,annotations_file,
-                                labels,device="cuda")
+                                labels,device=device)
 
     signal = signal.permute(0,2,1)
     label = label.permute(1,0)
@@ -68,11 +68,11 @@ def transformation(signal,SAMPLE_RATE,N_FFT,HOP,N_MELS,trans="logmel",device="cu
         n_fft=N_FFT,
         hop_length=HOP ,
         n_mels=N_MELS,
-        normalized = True
+        normalized = False
         )
         transf = transf.to(device)
         signal = transf(signal)
-        signal = torch.log(signal+1e-5)
+        signal = torch.log(signal+1e-7)
     return signal
 
 def get_audio_sample_label(signal,target_sample_rate,hop, audio_sample_path,annotations_file,labels,device="cuda"):
@@ -114,6 +114,9 @@ def normalization(signal, mode=None):
         mean_s = torch.mean(signal)
         std_s = torch.std(signal)
         signal = torch.div((signal-mean_s),std_s)
+    elif mode == 'center':
+        mean_s = torch.mean(signal)
+        signal = signal-mean_s
     elif mode == None:
         signal = signal
     return signal

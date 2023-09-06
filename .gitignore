@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+audio_files/.DS_Store
+./.DS_Store
+models/
+logs/
+runs/
+.vscode/
+acoustics_index/
