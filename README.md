@@ -10,11 +10,11 @@ In order to extract information we will use for the first instance, the logarith
 
 ## Neural network
 
-- The neural network used in ```11_mbe_train.py``` and ```91_tut_train.py``` was Polyphonic-SEDnet designed by Adavanne et al.(2017). 
+- The neural network used in ```12_mbe_train.py``` and ```92_tut_train.py``` was Polyphonic-SEDnet designed by Adavanne et al.(2017). 
 
-- The neural network used in ```21_stai_train.py```was a Custom SEDnet, modified from the SEDnet by Adavanne et al. (2017)
+- The neural network used in ```22_stai_train.py```was a Custom SEDnet, modified from the SEDnet by Adavanne et al. (2017)
 
-- The neural network used in ```31_staimbe_train.py```was a STAIMBEnet, a modified architecture from the SEDnet by Adavanne et al. (2017)
+- The neural network used in ```32_staimbe_train.py```was a STAIMBEnet, a modified architecture from the SEDnet by Adavanne et al. (2017)
 
 ## Virtual environment
 
